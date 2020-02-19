@@ -7,9 +7,10 @@ def main(sysargv):
     filepath = "../Practice Round - 2020/"
 
     # Settings
-    execute_from_cmd = False        # TODO: Set to true to execute from command line
-    input_delimiter = " "   # TODO: CHANGE WITH CORRECT DELIMITER!!
-    output_delimiter = ";"   # TODO: CHANGE WITH CORRECT DELIMITER!!
+    execute_from_cmd = False    # TODO: Set to true to execute from command line
+    input_delimiter = " "       # TODO: CHANGE WITH CORRECT DELIMITER!!
+    output_delimiter = ";"      # TODO: CHANGE WITH CORRECT DELIMITER!!
+    nr_iteration = 1            # TODO: CHANGE THIS
 
     # Read input file
     if execute_from_cmd:
@@ -18,14 +19,13 @@ def main(sysargv):
     else:
         input_filename = "a_example.in"
         output_filename = "a_example.out"
-
     input_filepath = filepath + input_filename
     output_filepath = filepath + output_filename
     input_data = file_controller.read(input_filepath, input_delimiter)
 
-    # Main algorithm
+    # Main algorithm & Write Output
     algo = MainAlgorithm(output_filepath, output_delimiter, input_data)
-    algo.execute()      # Result is output at the end of every iteration
+    algo.execute(nr_iteration)      # Result is outputted whenever best possible solution is found
 
 
 class MainAlgorithm:
@@ -50,11 +50,11 @@ class MainAlgorithm:
                 best_solution = cur_solution
                 print("New Best Score:", best_solution_score, "Best Solution:", cur_solution)       # Default debuginfo
                 array_to_write = [[2,3,4],[5,6,7]]        # TODO: Change this to correct way to output nested array to a file
-                
+
                 # Write Result
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
 
-    def execute_iteration(self):
+    def execute_iteration(self):        # TODO: Modify this code to your algorithm
         # Write your algorithm that is going to be executed every iteration here
         solution = self.input_data
 
