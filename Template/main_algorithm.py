@@ -17,8 +17,8 @@ def main(sysargv):
         input_filename = sysargv[1]
         output_filename = sysargv[2]
     else:
-        input_filename = "a_example.in"
-        output_filename = "a_example.out"
+        input_filename = "a_example.in"         # TODO: Modify input_filename if executing from pycharm
+        output_filename = "a_example.out"       # TODO: Modify input_filename if executing from pycharm
     input_filepath = filepath + input_filename
     output_filepath = filepath + output_filename
     input_data = file_controller.read(input_filepath, input_delimiter)
