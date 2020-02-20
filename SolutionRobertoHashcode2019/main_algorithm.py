@@ -9,7 +9,7 @@ def main(sysargv):
     filepath = os.getcwd() + '\\'      # TODO: Set this to the filepath of input and output
     execute_from_cmd = False                    # TODO: Set to true to execute from command line
     input_delimiter = " "                       # TODO: CHANGE WITH CORRECT DELIMITER!!
-    output_delimiter = ";"                      # TODO: CHANGE WITH CORRECT DELIMITER!!
+    output_delimiter = ""                      # TODO: CHANGE WITH CORRECT DELIMITER!!
     nr_iteration = 1                            # TODO: CHANGE THIS
 
     # Read input file
@@ -29,7 +29,6 @@ def main(sysargv):
     nr_of_days = int(line0[2])
 
     books_score = [int(i) for i in input_data[1]]
-    print(books_score)
     libraries = []
     for i in range(nr_of_libraries):
         library_info = input_data[2*(i+1)]
@@ -50,7 +49,7 @@ def main(sysargv):
     # Main algorithm & Write Output
     algo = MainAlgorithm(output_filepath, output_delimiter, libraries)
     # TODO: Uncomment this to make algorithm execute
-    # algo.execute(nr_iteration)      # Result is outputted whenever best possible solution is found
+    algo.execute(nr_iteration)      # Result is outputted whenever best possible solution is found
 
 
 class MainAlgorithm:
@@ -74,14 +73,12 @@ class MainAlgorithm:
                 best_solution_score = cur_score
                 best_solution = cur_solution
                 print("New Best Score:", best_solution_score, "Best Solution:", cur_solution)       # Default debuginfo
-                # out_libraries = input_data
                 array_to_write = []
-                array_to_write.append(len(best_solution))
+                array_to_write.append(str(len(best_solution)))
                 for l in best_solution:
                     scanned_books = l.scanned_books
-                    array_to_write.append(str(l.id) + ' ' + str(len(scanned_books)) + '\n\n' + ' '.join(scanned_books))
+                    array_to_write.append(str(l.id) + ' ' + str(len(scanned_books)) + '\n' + ' '.join(str(x) for x in scanned_books))
 
-                print('xxx', array_to_write)
                 # Write Result
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
 

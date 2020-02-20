@@ -10,4 +10,4 @@ class Library:
 
     # Custom print
     def __str__(self):
-        return str(self.__class__) + ": " + str(self.id) + ';' + str(self.nr_of_books) + ';' +  str(self.signup_dur) + ';' +  str(self.shippable_books_per_day) + ';' +  str(self.books)
+        return str(self.__class__) + ": ID: " + str(self.id) + ';No of Books: ' + str(self.nr_of_books) + ';Signup Dur: ' +  str(self.signup_dur) + ';Shippable books per day: ' +  str(self.shippable_books_per_day) + ';Books: ' +  str(self.books)
