@@ -28,17 +28,19 @@ def main(sysargv):
     nr_of_libraries = int(line0[1])
     nr_of_days = int(line0[2])
 
-    books_score = input_data[1]
-
+    books_score = [int(i) for i in input_data[1]]
+    print(books_score)
     libraries = []
     for i in range(nr_of_libraries):
         library_info = input_data[2*(i+1)]
         nr_of_books = library_info[0]
         signup_dur = library_info[1]
         shippable_books_per_day = library_info[1]
-        books = input_data[2*(i+1)+1]
-
-        libraries.append(Library(int(i), int(nr_of_books), int(signup_dur), int(shippable_books_per_day), books))
+        books = [int(x) for x in input_data[2*(i+1)+1]]
+        max_score = 0
+        for book in books:
+            max_score += int(books_score[book])
+        libraries.append(Library(int(i), int(nr_of_books), int(signup_dur), int(shippable_books_per_day), books, max_score))
 
     # for l in libraries:
     #     print(l)
@@ -73,16 +75,19 @@ class MainAlgorithm:
                 best_solution = cur_solution
                 print("New Best Score:", best_solution_score, "Best Solution:", cur_solution)       # Default debuginfo
                 # out_libraries = input_data
-                array_to_write = [];
+                array_to_write = []
+                array_to_write.append(len(best_solution))
+                for l in best_solution:
+                    scanned_books = l.scanned_books
+                    array_to_write.append(str(l.id) + ' ' + str(len(scanned_books)) + '\n\n' + ' '.join(scanned_books))
 
-
+                print('xxx', array_to_write)
                 # Write Result
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
 
     def execute_iteration(self):        # TODO: Modify this code to your algorithm
         # Write your algorithm that is going to be executed every iteration here
         solution = self.input_data
-
         return 0, solution    # return solution score
 
 
