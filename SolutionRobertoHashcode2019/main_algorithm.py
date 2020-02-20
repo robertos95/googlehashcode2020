@@ -36,6 +36,7 @@ def main(sysargv):
         signup_dur = library_info[1]
         shippable_books_per_day = library_info[1]
         books = [int(x) for x in input_data[2*(i+1)+1]]
+        books = sorted(books, key=lambda x: books_score[x], reverse=True)
         max_score = 0
         for book in books:
             max_score += int(books_score[book])
@@ -49,7 +50,7 @@ def main(sysargv):
     # Main algorithm & Write Output
     algo = MainAlgorithm(output_filepath, output_delimiter, libraries)
     # TODO: Uncomment this to make algorithm execute
-    algo.execute(nr_iteration)      # Result is outputted whenever best possible solution is found
+    algo.execute(nr_of_days, books_score, nr_iteration)      # Result is outputted whenever best possible solution is found
 
 
 class MainAlgorithm:
@@ -62,12 +63,12 @@ class MainAlgorithm:
         # Input data is an array of array
         # E.g., self.nr_string = input_data[0][0]
 
-    def execute(self, nr_iteration=1):
+    def execute(self,  nr_of_days, books_score, nr_iteration=1):
         best_solution_score = 0
         best_solution = []
         for cur_iteration_nr in range(0, nr_iteration):
             print("IterationNr", cur_iteration_nr)      # Default debuginfo
-            cur_score, cur_solution = self.execute_iteration()
+            cur_score, cur_solution = self.execute_iteration(nr_of_days, books_score)
 
             if cur_score > best_solution_score or nr_iteration == 1:        # always output if nr iteration is 1
                 best_solution_score = cur_score
@@ -82,10 +83,39 @@ class MainAlgorithm:
                 # Write Result
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
 
-    def execute_iteration(self):        # TODO: Modify this code to your algorithm
+    def execute_iteration(self, nr_of_days, books_score):        # TODO: Modify this code to your algorithm
+        self.input_data = sorted(sorted(self.input_data, key=lambda x: x.signup_dur, reverse=True),
+                                 key=lambda x: x.max_score, reverse=True)
+
+        processed_books = {}
+        remaining_days = nr_of_days
+        best_score = 0
+        out_libraries = []
+        for i in range(len(self.input_data)):
+            library = self.input_data[i]
+            max_books_daily = library.shippable_books_per_day
+            remaining_days = remaining_days - library.signup_dur
+            if(remaining_days < 0):
+                remaining_days += library.signup_dur
+                continue
+            out_libraries.append(library)
+            books = library.books.copy()
+            k = 0
+            print('lib', library.id)
+            print(remaining_days* max_books_daily)
+            while books and k < remaining_days * max_books_daily:
+                book = books.pop(0)
+                print('mm', book)
+                print(3 in processed_books)
+                if book not in processed_books:
+                    processed_books[book] = True
+                    library.scanned_books.append(book)
+                    best_score += books_score[book]
+                k += 1
+
         # Write your algorithm that is going to be executed every iteration here
         solution = self.input_data
-        return 0, solution    # return solution score
+        return best_score, solution    # return solution score
 
 
 if __name__ == '__main__':
