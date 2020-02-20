@@ -17,7 +17,7 @@ def main(sysargv):
         input_filename = sysargv[1]
         output_filename = sysargv[2]
     else:
-        input_filename = "d_tough_choices.txt"         # TODO: Modify input_filename if executing from pycharm
+        input_filename = "b_read_on.txt"         # TODO: Modify input_filename if executing from pycharm
         output_filename = "a_example_out.txt"       # TODO: Modify input_filename if executing from pycharm
     input_filepath = filepath + input_filename
     output_filepath = filepath + output_filename
@@ -84,7 +84,7 @@ class MainAlgorithm:
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
 
     def execute_iteration(self, nr_of_days, books_score):        # TODO: Modify this code to your algorithm
-        self.input_data = sorted(sorted(self.input_data, key=lambda x: x.signup_dur, reverse=True),
+        self.input_data = sorted(sorted(self.input_data, key=lambda x: x.signup_dur),
                                  key=lambda x: x.max_score, reverse=True)
 
         processed_books = {}
