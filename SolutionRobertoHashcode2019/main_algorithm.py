@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, random, copy
 from file_controller import *
 from library import *
 
@@ -10,15 +10,30 @@ def main(sysargv):
     execute_from_cmd = False                    # TODO: Set to true to execute from command line
     input_delimiter = " "                       # TODO: CHANGE WITH CORRECT DELIMITER!!
     output_delimiter = ""                      # TODO: CHANGE WITH CORRECT DELIMITER!!
-    nr_iteration = 1                            # TODO: CHANGE THIS
+    nr_iteration = 100                            # TODO: CHANGE THIS
 
     # Read input file
     if execute_from_cmd:
         input_filename = sysargv[1]
         output_filename = sysargv[2]
     else:
-        input_filename = "b_read_on.txt"         # TODO: Modify input_filename if executing from pycharm
-        output_filename = "a_example_out.txt"       # TODO: Modify input_filename if executing from pycharm
+        # input_filename = "a_example.txt"         # TODO: Modify input_filename if executing from pycharm
+        # output_filename = "a_example_out.txt"       # TODO: Modify input_filename if executing from pycharm
+
+        # input_filename = "b_read_on.txt"
+        # output_filename = "b_read_on_out.txt"
+
+        # input_filename = "c_incunabula.txt"
+        # output_filename = "c_incunabula_out.txt"
+
+        # input_filename = "d_tough_choices.txt"
+        # output_filename = "d_tough_choices_out.txt"
+
+        # input_filename = "e_so_many_books.txt"
+        # output_filename = "e_so_many_books_out.txt"
+
+        input_filename = "f_libraries_of_the_world.txt"
+        output_filename = "f_libraries_of_the_world_out.txt"
     input_filepath = filepath + input_filename
     output_filepath = filepath + output_filename
     input_data = file_controller.read(input_filepath, input_delimiter)
@@ -34,7 +49,7 @@ def main(sysargv):
         library_info = input_data[2*(i+1)]
         nr_of_books = library_info[0]
         signup_dur = library_info[1]
-        shippable_books_per_day = library_info[1]
+        shippable_books_per_day = library_info[2]
         books = [int(x) for x in input_data[2*(i+1)+1]]
         books = sorted(books, key=lambda x: books_score[x])
         max_score = 0
@@ -84,15 +99,23 @@ class MainAlgorithm:
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
 
     def execute_iteration(self, nr_of_days, books_score):        # TODO: Modify this code to your algorithm
-        self.input_data = sorted(sorted(self.input_data, key=lambda x: x.signup_dur),
-                                 key=lambda x: x.max_score, reverse=True)
-
+        # self.input_data = sorted(sorted(self.input_data, key=lambda x: (x.signup_dur * x.nr_of_books/x.max_score)),
+        #                          key=lambda x: x.max_score, reverse=True)
+        libraries = copy.deepcopy(self.input_data)
+        libraries = sorted(libraries, key=lambda x: x.max_score / (x.signup_dur + x.shippable_books_per_day), reverse=True)
         processed_books = {}
         remaining_days = nr_of_days
         best_score = 0
         out_libraries = []
-        for i in range(len(self.input_data)):
-            library = self.input_data[i]
+        i = 0
+        nr_of_libs = len(libraries)
+        while libraries and i < nr_of_libs:
+            i += 1
+            is_random = random.randint(1,10) >= 8
+            if is_random:
+                library = libraries.pop(random.randint(0, len(libraries) - 1))
+            else:
+                library = libraries.pop(0)
             max_books_daily = library.shippable_books_per_day
             remaining_days = remaining_days - library.signup_dur
             if(remaining_days < 0):
@@ -100,8 +123,6 @@ class MainAlgorithm:
                 continue
             books = library.books.copy()
             k = 0
-            print('lib', library.id)
-            print(remaining_days* max_books_daily)
             while books and k < remaining_days * max_books_daily:
                 book = books.pop()
                 # print('mm', book)
@@ -110,6 +131,7 @@ class MainAlgorithm:
                     processed_books[book] = True
                     library.scanned_books.append(book)
                     best_score += books_score[book]
+                    # print('qqqqq', best_score)
                 k += 1
             if library.scanned_books:
                 out_libraries.append(library)
