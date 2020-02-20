@@ -7,10 +7,10 @@ file_controller = FileController()
 def main(sysargv):
     # Settings
     filepath = os.getcwd() + '\\'      # TODO: Set this to the filepath of input and output
-    execute_from_cmd = False                    # TODO: Set to true to execute from command line
+    execute_from_cmd = True                    # TODO: Set to true to execute from command line
     input_delimiter = " "                       # TODO: CHANGE WITH CORRECT DELIMITER!!
     output_delimiter = ""                      # TODO: CHANGE WITH CORRECT DELIMITER!!
-    nr_iteration = 100                            # TODO: CHANGE THIS
+    nr_iteration = 1000                            # TODO: CHANGE THIS
 
     # Read input file
     if execute_from_cmd:
@@ -102,7 +102,15 @@ class MainAlgorithm:
         # self.input_data = sorted(sorted(self.input_data, key=lambda x: (x.signup_dur * x.nr_of_books/x.max_score)),
         #                          key=lambda x: x.max_score, reverse=True)
         libraries = copy.deepcopy(self.input_data)
-        libraries = sorted(libraries, key=lambda x: x.max_score / (x.signup_dur + x.shippable_books_per_day), reverse=True)
+        sorter = random.randint(1, 12)
+        if sorter < 3:
+            libraries = sorted(libraries, key=lambda x: x.max_score / (x.signup_dur + x.shippable_books_per_day), reverse=True)
+        elif sorter < 6:
+            libraries = sorted(libraries, key=lambda x: x.shippable_books_per_day, reverse=True)
+        elif sorter < 9:
+            libraries = sorted(libraries, key=lambda x: x.signup_dur, reverse=True)
+        else:
+            libraries = sorted(libraries, key=lambda x: x.max_score, reverse=True)
         processed_books = {}
         remaining_days = nr_of_days
         best_score = 0
