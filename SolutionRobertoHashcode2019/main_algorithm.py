@@ -38,8 +38,10 @@ def main(sysargv):
         shippable_books_per_day = library_info[1]
         books = input_data[2*(i+1)+1]
 
-        libraries.append(Library(int(nr_of_books), int(signup_dur), int(shippable_books_per_day), books))
+        libraries.append(Library(int(i), int(nr_of_books), int(signup_dur), int(shippable_books_per_day), books))
 
+    # for l in libraries:
+    #     print(l)
     # Debuginfo to test if input data works
     # print(input_data)                         # TODO: Uncomment this to test if input are read correctly
     #
@@ -70,7 +72,9 @@ class MainAlgorithm:
                 best_solution_score = cur_score
                 best_solution = cur_solution
                 print("New Best Score:", best_solution_score, "Best Solution:", cur_solution)       # Default debuginfo
-                array_to_write = [[2,3,4],[5,6,7]]        # TODO: Change this to correct way to output nested array to a file
+                # out_libraries = input_data
+                array_to_write = [];
+
 
                 # Write Result
                 file_controller.write(self.output_filepath, array_to_write, self.output_delimiter)
