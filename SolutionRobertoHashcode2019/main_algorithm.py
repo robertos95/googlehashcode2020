@@ -17,7 +17,7 @@ def main(sysargv):
         input_filename = sysargv[1]
         output_filename = sysargv[2]
     else:
-        input_filename = "a_example.txt"         # TODO: Modify input_filename if executing from pycharm
+        input_filename = "d_tough_choices.txt"         # TODO: Modify input_filename if executing from pycharm
         output_filename = "a_example_out.txt"       # TODO: Modify input_filename if executing from pycharm
     input_filepath = filepath + input_filename
     output_filepath = filepath + output_filename
@@ -116,9 +116,7 @@ class MainAlgorithm:
             else:
                 remaining_days += library.signup_dur
 
-        # Write your algorithm that is going to be executed every iteration here
-        solution = self.input_data
-        return best_score, solution    # return solution score
+        return best_score, out_libraries    # return solution score
 
 
 if __name__ == '__main__':
