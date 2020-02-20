@@ -36,7 +36,7 @@ def main(sysargv):
         signup_dur = library_info[1]
         shippable_books_per_day = library_info[1]
         books = [int(x) for x in input_data[2*(i+1)+1]]
-        books = sorted(books, key=lambda x: books_score[x], reverse=True)
+        books = sorted(books, key=lambda x: books_score[x])
         max_score = 0
         for book in books:
             max_score += int(books_score[book])
@@ -104,9 +104,9 @@ class MainAlgorithm:
             print('lib', library.id)
             print(remaining_days* max_books_daily)
             while books and k < remaining_days * max_books_daily:
-                book = books.pop(0)
-                print('mm', book)
-                print(3 in processed_books)
+                book = books.pop()
+                # print('mm', book)
+                # print(3 in processed_books)
                 if book not in processed_books:
                     processed_books[book] = True
                     library.scanned_books.append(book)
