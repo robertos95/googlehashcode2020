@@ -98,7 +98,6 @@ class MainAlgorithm:
             if(remaining_days < 0):
                 remaining_days += library.signup_dur
                 continue
-            out_libraries.append(library)
             books = library.books.copy()
             k = 0
             print('lib', library.id)
@@ -112,6 +111,10 @@ class MainAlgorithm:
                     library.scanned_books.append(book)
                     best_score += books_score[book]
                 k += 1
+            if library.scanned_books:
+                out_libraries.append(library)
+            else:
+                remaining_days += library.signup_dur
 
         # Write your algorithm that is going to be executed every iteration here
         solution = self.input_data
