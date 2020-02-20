@@ -4,13 +4,12 @@ from file_controller import *
 file_controller = FileController()
 
 def main(sysargv):
-    filepath = "../Practice Round - 2020/"
-
     # Settings
-    execute_from_cmd = False    # TODO: Set to true to execute from command line
-    input_delimiter = " "       # TODO: CHANGE WITH CORRECT DELIMITER!!
-    output_delimiter = ";"      # TODO: CHANGE WITH CORRECT DELIMITER!!
-    nr_iteration = 1            # TODO: CHANGE THIS
+    filepath = "../Practice Round - 2020/"      # TODO: Set this to the filepath of input and output
+    execute_from_cmd = False                    # TODO: Set to true to execute from command line
+    input_delimiter = " "                       # TODO: CHANGE WITH CORRECT DELIMITER!!
+    output_delimiter = ";"                      # TODO: CHANGE WITH CORRECT DELIMITER!!
+    nr_iteration = 1                            # TODO: CHANGE THIS
 
     # Read input file
     if execute_from_cmd:
@@ -23,9 +22,13 @@ def main(sysargv):
     output_filepath = filepath + output_filename
     input_data = file_controller.read(input_filepath, input_delimiter)
 
+    # Debuginfo to test if input data works
+    # print(input_data)                         # TODO: Uncomment this to test if input are read correctly
+
     # Main algorithm & Write Output
     algo = MainAlgorithm(output_filepath, output_delimiter, input_data)
-    algo.execute(nr_iteration)      # Result is outputted whenever best possible solution is found
+    # TODO: Uncomment this to make algorithm execute
+    # algo.execute(nr_iteration)      # Result is outputted whenever best possible solution is found
 
 
 class MainAlgorithm:
